@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git url: 'https://github.com/sadhixadmin/pharmaproject.git', branch: 'main'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sshagent(['test']) {
+                    sh 'scp -o StrictHostKeyChecking=no index.html ubuntu@54.242.245.116:/var/www/html/'
+                }
+            }
+        }
+    }
+}
